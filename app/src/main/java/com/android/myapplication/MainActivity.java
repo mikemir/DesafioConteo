@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 //https://developer.android.com/guide/components/activities/activity-lifecycle?hl=es
+//https://developer.android.com/guide/components/intents-filters?hl=es
 public class MainActivity extends AppCompatActivity {
 
     TextView tvConteoLaptop, tvConteoRadio, tvConteoTelevisor;
@@ -21,18 +22,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tvConteoLaptop = (TextView) findViewById(R.id.tvConteoLaptop);
-        tvConteoRadio = (TextView) findViewById(R.id.tvConteoRadio);
-        tvConteoTelevisor = (TextView) findViewById(R.id.tvConteoTelevisor);
+        tvConteoLaptop = findViewById(R.id.tvConteoLaptop);
+        tvConteoRadio = findViewById(R.id.tvConteoRadio);
+        tvConteoTelevisor = findViewById(R.id.tvConteoTelevisor);
 
-        btLaptop = (Button) findViewById(R.id.btLaptop);
-        btRadio = (Button) findViewById(R.id.btRadio);
-        btTelevisor = (Button) findViewById(R.id.btTelevisor);
+        btLaptop = findViewById(R.id.btLaptop);
+        btRadio = findViewById(R.id.btRadio);
+        btTelevisor = findViewById(R.id.btTelevisor);
 
         btLaptop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                conteoLaptop++;
+                conteoLaptop = conteoLaptop + 1;
                 Intent intent = new Intent(MainActivity.this, ConteoActivity.class);
                 intent.putExtra("tipoConteo", "Laptop");
                 intent.putExtra("conteo", conteoLaptop);
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         btRadio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                conteoRadio++;
+                conteoRadio = conteoRadio + 1;
                 Intent intent = new Intent(MainActivity.this, ConteoActivity.class);
                 intent.putExtra("tipoConteo", "Radio");
                 intent.putExtra("conteo", conteoRadio);
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         btTelevisor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                conteoTelevisor++;
+                conteoTelevisor = conteoTelevisor + 1;
                 Intent intent = new Intent(MainActivity.this, ConteoActivity.class);
                 intent.putExtra("tipoConteo", "Televisor");
                 intent.putExtra("conteo", conteoTelevisor);
@@ -73,6 +74,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        //Actualizamos el conteo de los aparatos en los textViews.
+        tvConteoTelevisor.setText(Integer.toString(conteoTelevisor));
+        tvConteoLaptop.setText(Integer.toString(conteoLaptop));
+        tvConteoRadio.setText(Integer.toString(conteoRadio));
+
         Log.println(Log.INFO, "ALM", "onResume(MainActivity)");
         super.onResume();
     }
@@ -91,9 +97,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onRestart() {
-        tvConteoTelevisor.setText(Integer.toString(conteoTelevisor));
-        tvConteoLaptop.setText(Integer.toString(conteoLaptop));
-        tvConteoRadio.setText(Integer.toString(conteoRadio));
         Log.println(Log.INFO, "ALM", "onRestart(MainActivity)");
         super.onRestart();
     }
